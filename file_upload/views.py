@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import UploadFileForm
 from django.http import HttpResponse
-from .models import Image, Image_DL
+# from .models import Image, Image_DL
 
 
 import sys
