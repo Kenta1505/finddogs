@@ -17,6 +17,13 @@ import sys
 def test_ajax_app(request):
     hoge="Hello Django!!"
     return render(request, "MyApp/upload.html", {"hoge":hoge,})
+
+def test_ajax_response(request):
+    input_text=request.POST.getlist("name_input_text")
+    # ↑ name_input_textというname属性を持つinputタグに入力されたデータを取り出している。
+    hoge="Ajax Response" + input_text[0]
+    return HttpResponse(hoge)
+    # ↑ 部分的なHTMLとして返すには、HttpResponse()を使う。
         
 # ------------------------------------------------------------------
 def file_upload(request):

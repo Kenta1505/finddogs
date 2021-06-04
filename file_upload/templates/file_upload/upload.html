@@ -27,12 +27,13 @@
       AJAX RESPONSE
     </span>
     <!--JavaScript部分Qiitaから -->
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     // formのsubmitイベントをここで処理。
     $("form").submit( function(event) {
       // ここ↓で、デフォルトのform操作を一時的に防止しているらしい
       event.preventDefault();
       var form = $(this);
+      //↓ここでajaxの設定を行っている
       $.ajax({
         url: form.prop("action"),
         method: form.prop("method"),
@@ -40,6 +41,7 @@
         timeout: 10000,
         dataType: "text",
       })
+      // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
       .done( function(data){
         alert("done");
         $("#id_div_ajax_response").text(data);
