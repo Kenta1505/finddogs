@@ -12,42 +12,42 @@
 </head>
 <body>
     <h1>ファイルをアップロード</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" name="name_form" action="/file_upload/ajax/">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">アップロード</button>
+      <input class="btn" type="submit" value="アップロード">
+    <!--JavaScript部分Qiitaから -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+      // formのsubmitイベントをここで処理。
+      $("form").submit( function(event) {
+        // ここ↓で、デフォルトのform操作を一時的に防止しているらしい
+        event.preventDefault();
+        var form = $(this);
+        //↓ここでajaxの設定を行っている
+        $.ajax({
+          url: form.prop("action"),
+          method: form.prop("method"),
+          data: form.serialize(),
+          timeout: 10000,
+          dataType: "text",
+        })
+        // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
+        .done( function(data){
+          alert("done");
+          $("#id_div_ajax_response").text(data);
+        })
+      });
+      </script>
     </form>
-    <form name="name_form" action="/test_ajax_app/ajax/" method="POST">
+    <!--<form name="name_form" action="/file_upload/ajax/" method="POST">-->
       <!-- <form name="name_form" action="/test_ajax_app/" method="POST"> -->
-      {% csrf_token %}
-      <input type="text" id="id_input_text" name="name_input_text" value="999.99">
-      <input class="btn" type="submit">
-    </form>
+    <!--  {% csrf_token %}-->
+    <!--  <input type="text" id="id_input_text" name="name_input_text" value="999.99">-->
+    <!--  <input class="btn" type="submit">-->
+    <!--</form>-->
     <span id="id_div_ajax_response">
       AJAX RESPONSE
     </span>
-    <!--JavaScript部分Qiitaから -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    // formのsubmitイベントをここで処理。
-    $("form").submit( function(event) {
-      // ここ↓で、デフォルトのform操作を一時的に防止しているらしい
-      event.preventDefault();
-      var form = $(this);
-      //↓ここでajaxの設定を行っている
-      $.ajax({
-        url: form.prop("action"),
-        method: form.prop("method"),
-        data: form.serialize(),
-        timeout: 10000,
-        dataType: "text",
-      })
-      // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
-      .done( function(data){
-        alert("done");
-        $("#id_div_ajax_response").text(data);
-      })
-    });
-    </script>
 <hr />
 May/31/2021<p />
 </body>

@@ -16,7 +16,7 @@ import sys
 #Ajax trial
 def test_ajax_app(request):
     hoge="Hello Django!!"
-    return render(request, "MyApp/upload.html", {"hoge":hoge,})
+    return render(request, "file_upload/upload.html", {"hoge":hoge,})
 
 def test_ajax_response(request):
     input_text=request.POST.getlist("name_input_text")
