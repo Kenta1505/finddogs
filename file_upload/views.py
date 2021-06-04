@@ -12,6 +12,11 @@ import sys
 # def file_upload(request):
 #     if request.method=="POST":
 #         form = Image(request.POST)
+
+#Ajax trial
+def test_ajax_app(request):
+    hoge="Hello Django!!"
+    return render(request, "MyApp/upload.html", {"hoge":hoge,})
         
 # ------------------------------------------------------------------
 def file_upload(request):
