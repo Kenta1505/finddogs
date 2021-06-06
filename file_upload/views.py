@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .forms import UploadFileForm
 from django.http import HttpResponse
 # from .models import Image, Image_DL
-
+from .models import ImageUpload
 
 import sys
 
@@ -15,12 +15,20 @@ import sys
 
 #Ajax trial
 def test_ajax_app(request):
+    form=ImageUpload((request.POST, request.FILES))
     hoge="Hello Django!!"
-    return render(request, "file_upload/upload.html", {"hoge":hoge,})
+    img=request.FILES['file']
+    print(img)
+    context={
+        "hoge":hoge,
+        "form":img,
+    }
+    return render(request, "file_upload/upload.html", context)
 
 def test_ajax_response(request):
     input_text=request.POST.getlist("name_input_text")
     # ↑ name_input_textというname属性を持つinputタグに入力されたデータを取り出している。
+    print(input_text)
     hoge="Ajax Response" + input_text[0]
     return HttpResponse(hoge)
     # ↑ 部分的なHTMLとして返すには、HttpResponse()を使う。
@@ -44,7 +52,7 @@ def file_upload(request):
 def handle_uploaded_file(file_obj):
     sys.stderr.write("*** handle_uploaded_file *** aaa ***\n")
     sys.stderr.write(file_obj.name + "\n")
-    file_path = 'media/documents/' + file_obj.name 
+    file_path = 'images/' + file_obj.name 
     sys.stderr.write(file_path + "\n")
     with open(file_path, 'wb+') as destination:
         for chunk in file_obj.chunks():
@@ -56,5 +64,6 @@ def handle_uploaded_file(file_obj):
 def success(request):
     str_out = "Success!<p />"
     str_out += "成功<p />"
+    
     return HttpResponse(str_out)
 # ------------------------------------------------------------------

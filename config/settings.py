@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MyApp.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MyApp.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
@@ -122,3 +122,6 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT=os.path.join(BASE_DIR, '/MyApp/media')
 MEDIA_URL="/media/"
+
+IMAGE_ROOT=os.path.join(BASE_DIR, 'images')
+IMAGE_URL='/images/'

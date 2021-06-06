@@ -28,25 +28,23 @@
           url: form.prop("action"),
           method: form.prop("method"),
           data: form.serialize(),
-          timeout: 10000,
-          dataType: "text",
         })
         // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
         .done( function(data){
           alert("done");
-          $("#id_div_ajax_response").text(data);
+          $("#id_div_ajax_response").show(data);
         })
       });
       </script>
     </form>
     <!--<form name="name_form" action="/file_upload/ajax/" method="POST">-->
-      <!-- <form name="name_form" action="/test_ajax_app/" method="POST"> -->
+    <!--   <form name="name_form" action="/test_ajax_app/" method="POST"> -->
     <!--  {% csrf_token %}-->
     <!--  <input type="text" id="id_input_text" name="name_input_text" value="999.99">-->
     <!--  <input class="btn" type="submit">-->
     <!--</form>-->
     <span id="id_div_ajax_response">
-      AJAX RESPONSE
+      AJAX RESPONSE {{ hoge }} <img src="/{{ form.url }}" style="width:300px;height:auto">
     </span>
 <hr />
 May/31/2021<p />
