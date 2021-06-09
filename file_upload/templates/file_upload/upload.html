@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>ファイルをアップロード</h1>
-    <form id="form" method="POST" enctype="multipart/form-data" name="name_form" action="/file_upload/">
+    <form id="form" method="POST" enctype="multipart/form-data" name="name_form" action="/file_upload/response/">
       {% csrf_token %}
       {{ form.as_p }}
       <!--<input class="btn" type="submit" value="アップロード">-->
@@ -26,12 +26,12 @@
     <!--</form>-->
     <span id="id_div_ajax_response">
       {{ error }}
-      <img id="img" src="{{ image }}">
+      <img id="img">
       <!--AJAX RESPONSE {{ hoge }} <img src="/{{ form.url }}" style="width:300px;height:auto">-->
     </span>
     <hr />
     May/31/2021<p />
-    <!--JavaScript部分Qiitaから -->
+    <!--JavaScript部分 -->
     <script>
     // <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     // formのsubmitイベントをここで処理。
@@ -43,8 +43,8 @@
       $.ajax({
         url: form.prop("action"),
         method: form.prop("method"),
-        // data: FormData($("#form").get(0)),
-        data: form.serialize(),
+        data: new FormData($("#form").get(0)),
+        // data: form.serialize(),
         processData:false, 
         //processDataがtrueだとdataに指定した値を文字列に変換してしまう。デフォルトがtrueなので、画像を送る場合は、falseにする。
         contentType:false,
@@ -54,13 +54,18 @@
           // ↓CSRF Tokenを設定したり、前の結果を削除したりする部分
           xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
           $('#id_div_ajax_response').empty() //前の結果の削除
+          $("#img").empty()
         },
       })
       // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
       .done( function(data, textStatus, jqXHR){
         alert("done");
-        $("#id_div_ajax_response").append(data);
-        $("#img").show();
+        $('img[src=""]').attr({
+          src:data,
+          width: "100",
+          height: "100",
+        });
+        // $("#img").show();
         // $("#id_div_ajax_response_text").text(data);
       })
       .fail(function(jqXHR, textStatus, errorThrown){

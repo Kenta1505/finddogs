@@ -8,6 +8,7 @@ from django.core.files.storage import default_storage
 import os
 from PIL import Image
 import sys
+import shutil
 
 # models.pyとImageFieldを使ったやり方模索中
 #参照：https://hisafi.hatenablog.com/entry/2017/07/09/212430
@@ -70,6 +71,13 @@ def test_ajax_response(request):
 
 # ------------------------------------------------------------------
 def file_upload(request):
+    print("最初の空っぽフォーム")
+    form = UploadFileForm()
+    return render(request, 'file_upload/upload.html', {'form': form})
+# #
+# ------------------------------------------------------------------
+def file_upload_response(request):
+    print("responseの方です。")
     if request.method=="POST":
 
         form = UploadFileForm(request.POST, request.FILES)
@@ -80,18 +88,22 @@ def file_upload(request):
             sys.stderr.write(file_obj.name + "\n")
             # return str(file_obj.name)
             print("file_upload HttpResponseRedirectです。")
-            return HttpResponseRedirect('/success/url/')
-    else:
-        form = UploadFileForm()
-    print("file_upload render部分です。")
-    return render(request, 'file_upload/upload.html', {'form': form})
+            file_name="static/images/" + file_obj.name
+            print(os.path.relpath(file_name))
+            file_path=os.path.relpath(file_name)
+            # shutil.move(file_name, "file_upload/")
+            return HttpResponseRedirect("/MyApp/static/images/27.jpg")
+    #     print("else部分")
+    #     form = UploadFileForm()
+    # print("file_upload render部分です。")
+    # return render(request, 'file_upload/upload.html', {'form': form})
 # #
 # #
 # # ------------------------------------------------------------------
 def handle_uploaded_file(file_obj):
     sys.stderr.write("*** handle_uploaded_file *** aaa ***\n")
     sys.stderr.write(file_obj.name + "\n")
-    file_path = 'images/' + file_obj.name 
+    file_path = 'static/images/' + file_obj.name 
     sys.stderr.write(file_path + "\n")
     with open(file_path, 'wb+') as destination:
         for chunk in file_obj.chunks():
