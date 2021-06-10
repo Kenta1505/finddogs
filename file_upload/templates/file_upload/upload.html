@@ -26,6 +26,8 @@
     <!--</form>-->
     <span id="id_div_ajax_response">
       {{ error }}
+      <img src="{{ sample.url }}">
+      <p>↑テストで飛ばしたやつ</p>
       <img id="img">
       <!--AJAX RESPONSE {{ hoge }} <img src="/{{ form.url }}" style="width:300px;height:auto">-->
     </span>
@@ -58,13 +60,13 @@
         },
       })
       // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
-      .done( function(data, textStatus, jqXHR){
+      .done( function(data){
         alert("done");
-        $('img[src=""]').attr({
-          src:data,
-          width: "100",
-          height: "100",
-        });
+        $('#id_div_ajax_response').children('img').attr("src", data);
+        //   src:data,
+        //   width: "100",
+        //   height: "100",
+        // });
         // $("#img").show();
         // $("#id_div_ajax_response_text").text(data);
       })

@@ -9,6 +9,7 @@ import os
 from PIL import Image
 import sys
 import shutil
+from config.settings import BASE_DIR
 
 # models.pyとImageFieldを使ったやり方模索中
 #参照：https://hisafi.hatenablog.com/entry/2017/07/09/212430
@@ -57,7 +58,7 @@ def test_ajax_response(request):
         # return str(file_obj.name)
 
         file_name=file_obj.name
-        file="images/" + file_name
+        file="BASE_DIR" + "static/images/" + file_name
         # file="images/" + str(request.FILES['file'])
         # files=os.listdir("images")
         context=render(request, "file_upload/upload.html", {"form":form})
@@ -88,11 +89,17 @@ def file_upload_response(request):
             sys.stderr.write(file_obj.name + "\n")
             # return str(file_obj.name)
             print("file_upload HttpResponseRedirectです。")
-            file_name="static/images/" + file_obj.name
+            base=BASE_DIR
+            file_name=base + "/static/images/" + file_obj.name
             print(os.path.relpath(file_name))
+            print(file_name)
+            print(base)
             file_path=os.path.relpath(file_name)
+            file=os.path.relpath(base + "/static/images/27.jpg")
+            print(str(file))
+            context=render(request, "file_upload/upload.html", {"sample":file})
             # shutil.move(file_name, "file_upload/")
-            return HttpResponseRedirect("/MyApp/static/images/27.jpg")
+            return HttpResponse(file, context)
     #     print("else部分")
     #     form = UploadFileForm()
     # print("file_upload render部分です。")
@@ -103,7 +110,9 @@ def file_upload_response(request):
 def handle_uploaded_file(file_obj):
     sys.stderr.write("*** handle_uploaded_file *** aaa ***\n")
     sys.stderr.write(file_obj.name + "\n")
-    file_path = 'static/images/' + file_obj.name 
+    base=BASE_DIR
+    print(base)
+    file_path = base + "/static/images/" + file_obj.name 
     sys.stderr.write(file_path + "\n")
     with open(file_path, 'wb+') as destination:
         for chunk in file_obj.chunks():
