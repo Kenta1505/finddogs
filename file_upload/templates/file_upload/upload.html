@@ -29,6 +29,7 @@
       <img src="{{ sample.url }}">
       <p>↑テストで飛ばしたやつ</p>
       <img id="img">
+      <img src="/MyApp/static/images/27.jpg">
       <!--AJAX RESPONSE {{ hoge }} <img src="/{{ form.url }}" style="width:300px;height:auto">-->
     </span>
     <hr />
@@ -46,6 +47,7 @@
         url: form.prop("action"),
         method: form.prop("method"),
         data: new FormData($("#form").get(0)),
+        timeout: 10000,
         // data: form.serialize(),
         processData:false, 
         //processDataがtrueだとdataに指定した値を文字列に変換してしまう。デフォルトがtrueなので、画像を送る場合は、falseにする。
@@ -55,13 +57,24 @@
           //リクエスト送信前の処理
           // ↓CSRF Tokenを設定したり、前の結果を削除したりする部分
           xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
-          $('#id_div_ajax_response').empty() //前の結果の削除
-          $("#img").empty()
+          // $('#id_div_ajax_response').empty() //前の結果の削除
+          // $("#img").empty()
         },
       })
       // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
       .done( function(data){
         alert("done");
+        function sleep(waitMsec){
+          var startMsec = new Date();
+          // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+          while (new Date() - startMsec < waitMsec);
+        }
+        
+        sleep(10000);
+        
+        //５秒後にメッセージを表示
+        console.log("５秒経過しました！")
+        
         $('#id_div_ajax_response').children('img').attr("src", data);
         //   src:data,
         //   width: "100",
