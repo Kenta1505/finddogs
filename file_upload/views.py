@@ -19,62 +19,62 @@ from config.settings import BASE_DIR
 
 #Ajax trial
 
-file_path=""
+# file_path=""
 
 
-def test_ajax_app(request):
-    if request.method == 'POST':
-        # form=ImageUpload(request.POST, request.FILES)
-        title=str(request.POST['title'])
-        hoge="Hello Django!!" + title
-        # img=request.FILES['file']
-        # print(img)
-        # context={
-        #     "hoge":hoge,
-        #     "form":img,
-        # }
-        # return render(request, "file_upload/upload.html", context)
+# def test_ajax_app(request):
+#     if request.method == 'POST':
+#         # form=ImageUpload(request.POST, request.FILES)
+#         title=str(request.POST['title'])
+#         hoge="Hello Django!!" + title
+#         # img=request.FILES['file']
+#         # print(img)
+#         # context={
+#         #     "hoge":hoge,
+#         #     "form":img,
+#         # }
+#         # return render(request, "file_upload/upload.html", context)
     
-        return HttpResponse(hoge)
+#         return HttpResponse(hoge)
         
-    else:
-        form=UploadFileForm()
-        return render(request, 'file_upload/upload.html', {'form': form})
+#     else:
+#         form=UploadFileForm()
+#         return render(request, 'upload.html', {'form': form})
 
 
-def test_ajax_response(request):
-    if not request.method=="POST":
-        form = UploadFileForm()
-        return render(request, 'file_upload/upload.html', {'form': form})
-        # input_text=request.POST.getlist("name_input_text")
-        # ↑ name_input_textというname属性を持つinputタグに入力されたデータを取り出している。
-        # print(input_text)
-    else:
-        form = UploadFileForm(request.POST, request.FILES)
-        sys.stderr.write("*** file_upload *** aaa ***\n")
-        handle_uploaded_file(request.FILES['file'])
-        file_obj = request.FILES['file']
-        sys.stderr.write(file_obj.name + "\n")
-        # return str(file_obj.name)
+# def test_ajax_response(request):
+#     if not request.method=="POST":
+#         form = UploadFileForm()
+#         return render(request, 'upload.html', {'form': form})
+#         # input_text=request.POST.getlist("name_input_text")
+#         # ↑ name_input_textというname属性を持つinputタグに入力されたデータを取り出している。
+#         # print(input_text)
+#     else:
+#         form = UploadFileForm(request.POST, request.FILES)
+#         sys.stderr.write("*** file_upload *** aaa ***\n")
+#         handle_uploaded_file(request.FILES['file'])
+#         file_obj = request.FILES['file']
+#         sys.stderr.write(file_obj.name + "\n")
+#         # return str(file_obj.name)
 
-        file_name=file_obj.name
-        file="BASE_DIR" + "static/images/" + file_name
-        # file="images/" + str(request.FILES['file'])
-        # files=os.listdir("images")
-        context=render(request, "file_upload/upload.html", {"form":form})
-        hoge="Ajax Response" + str(request.POST['title'])
-        # file_path=os.listdir("/../images")
-        print(hoge, file)
-        img=Image.open(file)
-        img.show()
-        return HttpResponse(hoge, file, context)
+#         file_name=file_obj.name
+#         file="BASE_DIR" + "static/images/" + file_name
+#         # file="images/" + str(request.FILES['file'])
+#         # files=os.listdir("images")
+#         context=render(request, "upload.html", {"form":form})
+#         hoge="Ajax Response" + str(request.POST['title'])
+#         # file_path=os.listdir("/../images")
+#         print(hoge, file)
+#         img=Image.open(file)
+#         img.show()
+#         return HttpResponse(hoge, file, context)
             
 
 # ------------------------------------------------------------------
 def file_upload(request):
     print("最初の空っぽフォーム")
     form = UploadFileForm()
-    return render(request, 'file_upload/upload.html', {'form': form})
+    return render(request, 'upload.html', {'form': form})
 # #
 # ------------------------------------------------------------------
 def file_upload_response(request):
@@ -85,22 +85,19 @@ def file_upload_response(request):
         if form.is_valid():
             sys.stderr.write("*** file_upload *** aaa ***\n")
             handle_uploaded_file(request.FILES['file'])
+            title=str(request.POST["title"])
+            print(title)
             file_obj = request.FILES['file']
             sys.stderr.write(file_obj.name + "\n")
             # return str(file_obj.name)
-            print("file_upload HttpResponseRedirectです。")
+            print("file_upload HttpResponseです。")
             base=BASE_DIR
-            file_name=base + "/static/images/" + file_obj.name
-            print(os.path.relpath(file_name))
+            # file_name=base + "/static/" + file_obj.name
+            file_name="static/" + file_obj.name
             print(file_name)
-            print(base)
-            file_path=os.path.relpath(file_name)
-            # file=os.path.abspath(base + "/static/images/27.jpg")
-            file=os.path.relpath(file_path)
-            print(str(file))
-            context=render(request, "file_upload/upload.html", {"sample":file})
+            context=render(request, "upload.html", {"text":title})
             # shutil.move(file_name, "file_upload/")
-            return HttpResponse(file, context)
+            return HttpResponse(file_name)
     #     print("else部分")
     #     form = UploadFileForm()
     # print("file_upload render部分です。")
@@ -113,7 +110,7 @@ def handle_uploaded_file(file_obj):
     sys.stderr.write(file_obj.name + "\n")
     base=BASE_DIR
     print(base)
-    file_path = base + "/static/images/" + file_obj.name 
+    file_path = base + "/static/" + file_obj.name 
     sys.stderr.write(file_path + "\n")
     with open(file_path, 'wb+') as destination:
         for chunk in file_obj.chunks():

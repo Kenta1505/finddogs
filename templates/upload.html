@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>ファイルをアップロード</h1>
-    <form id="form" method="POST" enctype="multipart/form-data" name="name_form" action="/file_upload/response/">
+    <form id="form" method="POST" enctype="multipart/form-data" name="name_form" action="/response/">
       {% csrf_token %}
       {{ form.as_p }}
       <!--<input class="btn" type="submit" value="アップロード">-->
@@ -25,11 +25,15 @@
     <!--  <input class="btn" type="submit">-->
     <!--</form>-->
     <span id="id_div_ajax_response">
+      {% load static %}
       {{ error }}
-      <img src="{{ sample.url }}">
-      <p>↑テストで飛ばしたやつ</p>
+      <!--<img src="{% static "{{ sample }}" %}">-->
+      <!--<p>↑テストで飛ばしたやつ</p>-->
       <img id="img">
-      <img src="sample.jpg">
+    <div>
+      <p>{{ text }}</p>
+    </div>
+      <!--<img src="{% static "sample.jpg" %}">-->
       <!--AJAX RESPONSE {{ hoge }} <img src="/{{ form.url }}" style="width:300px;height:auto">-->
     </span>
     <hr />
@@ -64,18 +68,19 @@
       // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
       .done( function(data){
         alert("done");
-        function sleep(waitMsec){
-          var startMsec = new Date();
-          // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-          while (new Date() - startMsec < waitMsec);
-        }
+        // function sleep(waitMsec){
+        //   var startMsec = new Date();
+        //   // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+        //   while (new Date() - startMsec < waitMsec);
+        // }
         
-        sleep(10000);
+        // sleep(0);
         
-        //５秒後にメッセージを表示
-        console.log("５秒経過しました！")
+        // //５秒後にメッセージを表示
+        // console.log("５秒経過しました！")
         
         $('#id_div_ajax_response').children('img').attr("src", data);
+        // $('#id_div_ajax_response').children('p').text(data);
         //   src:data,
         //   width: "100",
         //   height: "100",
