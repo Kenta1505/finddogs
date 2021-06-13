@@ -19,10 +19,12 @@ from django.urls import include
 import file_upload.views as file_upload
 from django.conf import settings
 from django.conf.urls.static import static
+# import eraser.views as eraser
 
 urlpatterns = [
     # path('success/url/',file_upload.success),
     path('',include('file_upload.urls')),
+    # path('', eraser.eraser,name="eraser"),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # if settings.DEBUG:
