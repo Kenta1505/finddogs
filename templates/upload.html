@@ -28,17 +28,37 @@
       {% load static %}
       {{ error }}
       <!--<img src="{% static "{{ sample }}" %}">-->
-      <!--<p>↑テストで飛ばしたやつ</p>-->
-      <img id="img">
-    <div>
-      <p>{{ text }}</p>
-    </div>
-      <!--<img src="{% static "sample.jpg" %}">-->
-      <!--AJAX RESPONSE {{ hoge }} <img src="/{{ form.url }}" style="width:300px;height:auto">-->
+      <!--<p>{{ text }}</p>-->
+
+      <img id="img"> <!--ここにAjaxで飛ばして、返ってきた画像のパスが、src属性とともに格納され、画像が表示されるようになる。-->
     </span>
     <hr />
-    May/31/2021<p />
-    <!--JavaScript部分 -->
+    Created on May/31/2021<p /> <!--作成日-->
+    <!--現在のリアルタイム時刻-->
+    <span id="view_clock"></span>
+    
+    <script type="text/javascript">
+    timerID = setInterval('clock()',500); //0.5秒毎にclock()を実行
+    
+    function clock() {
+    	document.getElementById("view_clock").innerHTML = getNow();
+    }
+    
+    function getNow() {
+    	var now = new Date();
+    	var year = now.getFullYear();
+    	var mon = now.getMonth()+1; //１を足すこと
+    	var day = now.getDate();
+    	var hour = now.getHours();
+    	var min = now.getMinutes();
+    	var sec = now.getSeconds();
+    
+    	//出力用
+    	var s ="現在は、" + year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒"; 
+    	return s;
+    }
+    </script>    
+    <!--JavaScript/Ajax部分 -->
     <script>
     // <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     // formのsubmitイベントをここで処理。
@@ -51,6 +71,10 @@
         url: form.prop("action"),
         method: form.prop("method"),
         data: new FormData($("#form").get(0)),
+        // {
+        //   id: new FormData($("#form").get(0)),
+        //   name: form.serialize()
+        // },
         timeout: 10000,
         // data: form.serialize(),
         processData:false, 

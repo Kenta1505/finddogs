@@ -95,7 +95,7 @@ def file_upload_response(request):
             # file_name=base + "/static/" + file_obj.name
             file_name="static/" + file_obj.name
             print(file_name)
-            context=render(request, "upload.html", {"text":title})
+            context=render(request, "upload.html", {"text":title, "sample":file_name})
             # shutil.move(file_name, "file_upload/")
             return HttpResponse(file_name)
     #     print("else部分")
