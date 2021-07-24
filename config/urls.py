@@ -26,6 +26,7 @@ urlpatterns = [
     path('',include('file_upload.urls')),
     # path('', eraser.eraser,name="eraser"),
     path('admin/', admin.site.urls),
+    path('finddogs/', include('FindDogs.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # if settings.DEBUG:
 #     urlpatterns += static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)

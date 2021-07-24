@@ -10,6 +10,7 @@ from PIL import Image
 import sys
 import shutil
 from config.settings import BASE_DIR
+from . import hist_img
 
 # models.pyとImageFieldを使ったやり方模索中
 #参照：https://hisafi.hatenablog.com/entry/2017/07/09/212430
@@ -95,9 +96,34 @@ def file_upload_response(request):
             # file_name=base + "/static/" + file_obj.name
             file_name="static/" + file_obj.name
             print(file_name)
+            files=os.listdir("static")
+            print(files)
+            dogs={}
+            hist=""
+            img1 = file_name
+            for file in files:
+                if file == file_obj.name:
+                    continue
+                else:
+                    base, ext = os.path.splitext(file)
+                    print(base)
+                    print(ext)
+                    if ext == ".jpg" or ext ==".jpeg":
+                        print('画像がある場合')
+                        img2 = "static/" + file
+                        print(img2)
+                        hist=hist_img.hist_img(img1,img2)
+                        dogs.setdefault(str(img2), hist)
+                        print(hist)
+                    else:
+                        pass
+            print(dogs)
+            final_result = max(dogs, key=dogs.get)
+            print(final_result)
             context=render(request, "upload.html", {"text":title, "sample":file_name})
             # shutil.move(file_name, "file_upload/")
-            return HttpResponse(file_name)
+            return HttpResponse(dogs)
+            # return context
     #     print("else部分")
     #     form = UploadFileForm()
     # print("file_upload render部分です。")

@@ -28,7 +28,7 @@
       {% load static %}
       {{ error }}
       <!--<img src="{% static "{{ sample }}" %}">-->
-      <!--<p>{{ text }}</p>-->
+      <p>{{ text }}</p>
 
       <img id="img"> <!--ここにAjaxで飛ばして、返ってきた画像のパスが、src属性とともに格納され、画像が表示されるようになる。-->
     </span>
@@ -92,6 +92,7 @@
       // viewの、id_div_ajax_responseで返す値が、下記の変数dataに格納される。
       .done( function(data){
         alert("done");
+        console.log(data)
         // function sleep(waitMsec){
         //   var startMsec = new Date();
         //   // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
@@ -104,7 +105,7 @@
         // console.log("５秒経過しました！")
         
         $('#id_div_ajax_response').children('img').attr("src", data);
-        // $('#id_div_ajax_response').children('p').text(data);
+        $('#id_div_ajax_response').children('p').text(data);
         //   src:data,
         //   width: "100",
         //   height: "100",
